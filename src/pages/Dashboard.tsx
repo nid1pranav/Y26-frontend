@@ -1,7 +1,8 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import AdminDashboard from './admin/AdminDashboard';
+import AdminDashboard from './admin/Dashboard';
 import EventLeadDashboard from './eventlead/EventLeadDashboard';
+import WorkshopLeadDashboard from './workshoplead/WorkshopLeadDashboard';
 import FinanceDashboard from './finance/FinanceDashboard';
 import FacilitiesDashboard from './facilities/FacilitiesDashboard';
 import CoordinatorDashboard from './coordinator/CoordinatorDashboard';
@@ -15,11 +16,14 @@ const Dashboard = () => {
         return <AdminDashboard />;
       case 'EVENT_TEAM_LEAD':
         return <EventLeadDashboard />;
+      case 'WORKSHOP_TEAM_LEAD':
+        return <WorkshopLeadDashboard />;
       case 'FINANCE_TEAM':
         return <FinanceDashboard />;
       case 'FACILITIES_TEAM':
         return <FacilitiesDashboard />;
       case 'EVENT_COORDINATOR':
+      case 'WORKSHOP_COORDINATOR':
         return <CoordinatorDashboard />;
       default:
         return (
