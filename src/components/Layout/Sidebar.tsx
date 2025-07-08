@@ -14,7 +14,8 @@ import {
   Building,
   User,
   Bell,
-  MapPin
+  MapPin,
+  Plus
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 
@@ -62,6 +63,7 @@ const Sidebar = () => {
       return [
         ...baseItems,
         { icon: Calendar, label: 'My Events', path: '/event-leads/events' },
+        { icon: Plus, label: 'Create Event', path: '/event-leads/events/create' },
         { icon: DollarSign, label: 'Budget Planning', path: '/event-leads/budgets' },
         { icon: Receipt, label: 'Expense Tracking', path: '/event-leads/expenses' },
         { icon: Bell, label: 'Notifications', path: '/notifications' },
@@ -73,6 +75,7 @@ const Sidebar = () => {
       return [
         ...baseItems,
         { icon: Calendar, label: 'My Workshops', path: '/workshop-leads/workshops' },
+        { icon: Plus, label: 'Create Workshop', path: '/workshop-leads/workshops/create' },
         { icon: DollarSign, label: 'Budget Planning', path: '/workshop-leads/budgets' },
         { icon: Receipt, label: 'Expense Tracking', path: '/workshop-leads/expenses' },
         { icon: Bell, label: 'Notifications', path: '/notifications' },

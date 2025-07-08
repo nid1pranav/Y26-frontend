@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Plus, Calendar, Clock, CheckCircle, XCircle, DollarSign, TrendingUp, AlertCircle } from 'lucide-react';
+import { Plus, Calendar, Clock, CheckCircle, XCircle, DollarSign, TrendingUp, AlertTriangle } from 'lucide-react';
 import { eventsAPI, Event } from '../../api';
+import { useAuth } from '../../context/AuthContext';
 
 const EventLeadDashboard = () => {
+  const { user } = useAuth();
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -10,7 +12,11 @@ const EventLeadDashboard = () => {
     const fetchEvents = async () => {
       try {
         const data = await eventsAPI.getAll();
-        setEvents(data);
+        // Filter events created by current user and type EVENT
+        const userEvents = data.filter(event => 
+          event.creatorId === user?.id && event.type === 'EVENT'
+        );
+        setEvents(userEvents);
       } catch (error) {
         console.error('Failed to fetch events:', error);
       } finally {
@@ -19,7 +25,7 @@ const EventLeadDashboard = () => {
     };
 
     fetchEvents();
-  }, []);
+  }, [user]);
 
   const pendingEvents = events.filter(event => event.status === 'PENDING');
   const approvedEvents = events.filter(event => event.status === 'APPROVED');
@@ -51,7 +57,7 @@ const EventLeadDashboard = () => {
             </p>
           </div>
           <div className="hidden md:block">
-            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-lg">
+            <div className="bg-blue-600 text-white px-6 py-3 rounded-lg">
               <div className="flex items-center space-x-2">
                 <Calendar className="h-5 w-5" />
                 <span className="font-semibold">Event Team Lead</span>
@@ -139,7 +145,7 @@ const EventLeadDashboard = () => {
         <h2 className="text-xl font-semibold text-gray-900 mb-6">Quick Actions</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <a
-            href="/events/create"
+            href="/event-leads/events/create"
             className="flex items-center p-4 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors group"
           >
             <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
@@ -152,7 +158,7 @@ const EventLeadDashboard = () => {
           </a>
           
           <a
-            href="/budgets"
+            href="/event-leads/budgets"
             className="flex items-center p-4 bg-green-50 rounded-lg hover:bg-green-100 transition-colors group"
           >
             <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center group-hover:bg-green-200 transition-colors">
@@ -165,7 +171,7 @@ const EventLeadDashboard = () => {
           </a>
           
           <a
-            href="/events"
+            href="/event-leads/events"
             className="flex items-center p-4 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors group"
           >
             <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-colors">
@@ -189,7 +195,7 @@ const EventLeadDashboard = () => {
               <h3 className="text-lg font-medium text-gray-900 mb-2">No events yet</h3>
               <p className="text-gray-500 mb-4">Create your first event to get started</p>
               <a
-                href="/events/create"
+                href="/event-leads/events/create"
                 className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 <Plus className="h-4 w-4 mr-2" />
@@ -206,7 +212,7 @@ const EventLeadDashboard = () => {
                     'bg-red-400'
                   }`}></div>
                   <div>
-                    <h3 className="font-medium text-gray-900">{event.name}</h3>
+                    <h3 className="font-medium text-gray-900">{event.title}</h3>
                     <p className="text-sm text-gray-600">{event.type} • {event.venue || 'Venue TBD'}</p>
                   </div>
                 </div>
@@ -235,14 +241,14 @@ const EventLeadDashboard = () => {
       {rejectedEvents.length > 0 && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-6">
           <div className="flex items-center mb-4">
-            <AlertCircle className="h-5 w-5 text-red-600 mr-2" />
+            <AlertTriangle className="h-5 w-5 text-red-600 mr-2" />
             <h3 className="text-lg font-semibold text-red-900">Attention Required</h3>
           </div>
           <p className="text-red-700 mb-4">
             You have {rejectedEvents.length} rejected event{rejectedEvents.length > 1 ? 's' : ''} that need your attention.
           </p>
           <a
-            href="/events"
+            href="/event-leads/events"
             className="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
           >
             Review Events
