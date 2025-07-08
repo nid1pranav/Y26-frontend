@@ -11,6 +11,14 @@ export interface Notification {
   userId: string;
 }
 
+export interface CreateNotificationRequest {
+  title: string;
+  message: string;
+  type: 'INFO' | 'SUCCESS' | 'WARNING' | 'ERROR';
+  targetRole?: string;
+  sendToAll?: boolean;
+}
+
 export interface NotificationsResponse {
   notifications: Notification[];
   pagination: {
@@ -29,6 +37,11 @@ export const notificationsAPI = {
     unreadOnly?: boolean;
   }): Promise<NotificationsResponse> => {
     const response = await api.get('/notifications', { params });
+    return response.data;
+  },
+
+  create: async (data: CreateNotificationRequest) => {
+    const response = await api.post('/notifications', data);
     return response.data;
   },
 

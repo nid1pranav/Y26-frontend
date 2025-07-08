@@ -4,7 +4,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  role: 'ADMIN' | 'EVENT_TEAM_LEAD' | 'FINANCE_TEAM' | 'FACILITIES_TEAM' | 'EVENT_COORDINATOR';
+  role: 'ADMIN' | 'EVENT_TEAM_LEAD' | 'FINANCE_TEAM' | 'FACILITIES_TEAM' | 'EVENT_COORDINATOR' | 'WORKSHOP_COORDINATOR' | 'WORKSHOP_TEAM_LEAD';
   isActive: boolean;
   createdAt: string;
   updatedAt: string;

@@ -17,7 +17,7 @@ const CreateWorkshop = () => {
     dateTime: ''
   });
 
-  const [budgets, setBudgets] = useState<{ categoryId: string; amount: number; sponsorAmount: number; remarks: string }[]>([]);
+  const [budgets, setBudgets] = useState<{ categoryId: string; amount: number; sponsorContribution: number; remarks: string }[]>([]);
   const [coordinators, setCoordinators] = useState<User[]>([]);
   const [categories, setCategories] = useState<BudgetCategory[]>([]);
   const [showCategoryModal, setShowCategoryModal] = useState(false);
@@ -80,7 +80,7 @@ const CreateWorkshop = () => {
       setBudgets(categoriesData.map(category => ({
         categoryId: category.id,
         amount: 0,
-        sponsorAmount: 0,
+        sponsorContribution: 0,
         remarks: ''
       })));
     }
@@ -140,7 +140,7 @@ const CreateWorkshop = () => {
         setBudgets(prev => [...prev, {
           categoryId: result.id,
           amount: 0,
-          sponsorAmount: 0,
+          sponsorContribution: 0,
           remarks: ''
         }]);
       }
@@ -152,7 +152,7 @@ const CreateWorkshop = () => {
   };
 
   const getTotalSponsorAmount = () => {
-    return budgets.reduce((sum, budget) => sum + budget.sponsorAmount, 0);
+    return budgets.reduce((sum, budget) => sum + budget.sponsorContribution, 0);
   };
 
   return (
@@ -286,8 +286,8 @@ const CreateWorkshop = () => {
                           type="number"
                           min="0"
                           step="0.01"
-                          value={budget?.sponsorAmount || 0}
-                          onChange={(e) => handleBudgetChange(category.id, 'sponsorAmount', e.target.value)}
+                          value={budget?.sponsorContribution || 0}
+                          onChange={(e) => handleBudgetChange(category.id, 'sponsorContribution', e.target.value)}
                           className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                         />
                       </div>

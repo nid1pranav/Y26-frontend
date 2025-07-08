@@ -21,7 +21,7 @@ const EventLeadEvents = () => {
       if (data) {
         // Filter events created by current user and type EVENT
         const userEvents = data.filter(event => 
-          event.creator.id === user?.id && event.type === 'EVENT'
+          event.creatorId === user?.id && event.type === 'EVENT'
         );
         setEvents(userEvents);
       }
@@ -98,7 +98,7 @@ const EventLeadEvents = () => {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center space-x-3">
                         <h3 className="text-lg font-medium text-gray-900 truncate">
-                          {event.name}
+                          {event.title}
                         </h3>
                         {getStatusBadge(event.status)}
                       </div>
@@ -134,13 +134,10 @@ const EventLeadEvents = () => {
                     </div>
                     
                     <div className="flex items-center space-x-2">
-                      <Link
-                        to={`/events/${event.id}`}
-                        className="inline-flex items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                      >
+                      <button className="inline-flex items-center px-3 py-2 border border-gray-300 text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
                         <Eye className="h-4 w-4 mr-1" />
                         View
-                      </Link>
+                      </button>
                     </div>
                   </div>
                 </div>

@@ -2,15 +2,18 @@ import { api } from './index';
 
 export interface Event {
   id: string;
-  name: string;
+  title: string;
   description?: string;
   type: 'CULTURAL' | 'TECHNICAL' | 'WORKSHOP' | 'COMPETITION' | 'SEMINAR' | 'EVENT';
   status: 'PENDING' | 'APPROVED' | 'REJECTED' | 'COMPLETED';
   expectedParticipants?: number;
   venue?: string;
+  venueId?: string;
   dateTime?: string;
   createdAt: string;
   updatedAt: string;
+  creatorId: string;
+  coordinatorId?: string;
   creator: {
     id: string;
     name: string;
@@ -30,23 +33,23 @@ export interface Event {
 }
 
 export interface CreateEventRequest {
-  name: string;
+  title: string;
   description?: string;
   type: Event['type'];
   expectedParticipants?: number;
   venue?: string;
   dateTime?: string;
-  coordinatorId?: string;
+  coordinatorEmail?: string;
 }
 
 export interface UpdateEventRequest {
-  name?: string;
+  title?: string;
   description?: string;
   type?: Event['type'];
   expectedParticipants?: number;
   venue?: string;
   dateTime?: string;
-  coordinatorId?: string;
+  coordinatorEmail?: string;
 }
 
 export const eventsAPI = {
@@ -72,5 +75,10 @@ export const eventsAPI = {
 
   delete: async (id: string): Promise<void> => {
     await api.delete(`/events/${id}`);
+  },
+
+  approve: async (id: string, data: { status: 'APPROVED' | 'REJECTED'; remarks: string }) => {
+    const response = await api.post(`/events/${id}/approve`, data);
+    return response.data;
   }
 };
