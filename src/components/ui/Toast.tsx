@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { CheckCircle, XCircle, AlertCircle, Info, X } from 'lucide-react';
+import { CheckCircle, XCircle, AlertTriangle, Info, X } from 'lucide-react';
 
 interface Toast {
   id: string;
@@ -42,7 +42,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     
     setTimeout(() => {
       removeToast(id);
-    }, toast.duration || 5000);
+    }, toast.duration || 4000);
   }, [removeToast]);
 
   const showSuccess = useCallback((title: string, message?: string) => {
@@ -64,26 +64,26 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const getToastIcon = (type: Toast['type']) => {
     switch (type) {
       case 'success':
-        return <CheckCircle className="h-5 w-5 text-green-600" />;
+        return <CheckCircle className="h-5 w-5 text-white" />;
       case 'error':
-        return <XCircle className="h-5 w-5 text-red-600" />;
+        return <XCircle className="h-5 w-5 text-white" />;
       case 'warning':
-        return <AlertCircle className="h-5 w-5 text-yellow-600" />;
+        return <AlertTriangle className="h-5 w-5 text-white" />;
       case 'info':
-        return <Info className="h-5 w-5 text-blue-600" />;
+        return <Info className="h-5 w-5 text-white" />;
     }
   };
 
   const getToastStyles = (type: Toast['type']) => {
     switch (type) {
       case 'success':
-        return 'bg-green-50 border-green-200';
+        return 'bg-green-500';
       case 'error':
-        return 'bg-red-50 border-red-200';
+        return 'bg-red-500';
       case 'warning':
-        return 'bg-yellow-50 border-yellow-200';
+        return 'bg-yellow-500';
       case 'info':
-        return 'bg-blue-50 border-blue-200';
+        return 'bg-blue-500';
     }
   };
 
@@ -96,29 +96,31 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`max-w-sm w-full shadow-lg rounded-lg border p-4 ${getToastStyles(toast.type)} animate-in slide-in-from-right duration-300`}
+            className={`max-w-sm w-full shadow-lg rounded-lg overflow-hidden transform transition-all duration-300 ease-in-out animate-in slide-in-from-right ${getToastStyles(toast.type)}`}
           >
-            <div className="flex items-start">
-              <div className="flex-shrink-0">
-                {getToastIcon(toast.type)}
-              </div>
-              <div className="ml-3 w-0 flex-1">
-                <p className="text-sm font-medium text-gray-900">
-                  {toast.title}
-                </p>
-                {toast.message && (
-                  <p className="mt-1 text-sm text-gray-600">
-                    {toast.message}
+            <div className="p-4">
+              <div className="flex items-start">
+                <div className="flex-shrink-0">
+                  {getToastIcon(toast.type)}
+                </div>
+                <div className="ml-3 w-0 flex-1">
+                  <p className="text-sm font-medium text-white">
+                    {toast.title}
                   </p>
-                )}
-              </div>
-              <div className="ml-4 flex-shrink-0 flex">
-                <button
-                  onClick={() => removeToast(toast.id)}
-                  className="inline-flex text-gray-400 hover:text-gray-600 focus:outline-none"
-                >
-                  <X className="h-4 w-4" />
-                </button>
+                  {toast.message && (
+                    <p className="mt-1 text-sm text-white opacity-90">
+                      {toast.message}
+                    </p>
+                  )}
+                </div>
+                <div className="ml-4 flex-shrink-0 flex">
+                  <button
+                    onClick={() => removeToast(toast.id)}
+                    className="inline-flex text-white hover:text-gray-200 focus:outline-none transition-colors"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
